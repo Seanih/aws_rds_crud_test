@@ -1,20 +1,27 @@
 {
-  "name": "first-rds-app",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "next": "13.1.6",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
-  },
-  "devDependencies": {
-    "eslint": "8.33.0",
-    "eslint-config-next": "13.1.6"
-  }
+	"name": "first-rds-app",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"migrate": "node-pg-migrate",
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"dedent": "^0.7.0",
+		"jest": "^29.4.1",
+		"next": "13.1.6",
+		"node-pg-migrate": "^6.2.2",
+		"pg": "^8.9.0",
+		"pg-format": "^1.0.4",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"supertest": "^6.3.3"
+	},
+	"devDependencies": {
+		"eslint": "8.33.0",
+		"eslint-config-next": "13.1.6"
+	}
 }
