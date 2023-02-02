@@ -19,9 +19,9 @@ export default async function handler(req, res) {
 
 			await client.connect();
 
-			const result = await client.query(sqlQuery, queryValues);
+			const queryResult = await client.query(sqlQuery, queryValues);
 
-			res.status(200).json(result.rows);
+			res.status(200).json(queryResult.rows);
 
 			client.end();
 		} catch (error) {
@@ -30,29 +30,50 @@ export default async function handler(req, res) {
 	}
 
 	if (req.method === 'PATCH') {
-		// update user data in DB
+		// update specific user data in DB
 		try {
 			const queryValues = [userId];
+
+			//* <--------- Query with multiple params --------->
+			// 1) start query string
 			let sqlQuery = `UPDATE aws_users SET `;
 
-			// --------------------------->
-			// dynamically retrieve columns and values to PATCH
+			// 2) dynamically retrieve key value pairs from req.body
 			let i = 2;
 			Object.entries(req.body).forEach(([key, value]) => {
 				sqlQuery += `${key} = $${i}, `;
 				queryValues.push(value);
 				i++;
 			});
-			// then complete the query string
+
+			// 3) remove ", " from end of string & complete the query
 			sqlQuery = sqlQuery.slice(0, -2);
 			sqlQuery += ` WHERE id = $1`;
-			// <---------------------------
+			//* <--------- Query with multiple params --------->
 
 			await client.connect();
 			await client.query(sqlQuery, queryValues);
 
 			res.status(200).json('you made the update!');
 			client.end();
-		} catch (error) {}
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
+
+	if (req.method === 'DELETE') {
+		// delete specific user from DB
+		try {
+			const queryValues = [userId];
+			const sqlQuery = 'DELETE FROM aws_users WHERE id = $1';
+
+			await client.connect();
+			await client.query(sqlQuery, queryValues);
+
+			res.status(200).json(`you deleted the user`);
+			client.end();
+		} catch (error) {
+			console.log(error.message);
+		}
 	}
 }

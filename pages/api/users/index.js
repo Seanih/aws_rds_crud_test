@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 			await client.connect();
 
 			const result = await client.query(
-				'SELECT * FROM aws_users ORDER BY id DESC'
+				'SELECT * FROM aws_users ORDER BY id'
 			);
 
 			res.status(200).json(result.rows);
